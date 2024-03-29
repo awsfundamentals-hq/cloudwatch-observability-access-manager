@@ -9,7 +9,10 @@
 
 // Change the values below to match your Source account IDs
 const awsAccountIdSourceA = '__UPDATE_ME_SOURCE_ACCOUT_A_ID__';
+const assumeRoleSourceA = 'OrganizationAccountAccessRole';
+
 const awsAccountIdSourceB = '__UPDATE_ME_SOURCE_ACCOUT_B_ID__';
+const assumeRoleSourceB = 'OrganizationAccountAccessRole';
 
 export default $config({
 	app(input) {
@@ -105,7 +108,7 @@ export default $config({
 		// Assume role "OrganizationAccountAccessRole" in SourceA account
 		// Ensure the current credentials set in our environment can assume the role
 		//
-		const awsAssumeRoleSourceA = `arn:aws:iam::${awsAccountIdSourceA}:role/OrganizationAccountAccessRole`;
+		const awsAssumeRoleSourceA = `arn:aws:iam::${awsAccountIdSourceA}:role/${assumeRoleSourceA}`;
 		const sourceAProvUsEast1 = new aws.Provider('sourceAProvUsEast1', {
 			region: 'us-east-1',
 			assumeRole: {
@@ -152,7 +155,7 @@ export default $config({
 		// Assume role "OrganizationAccountAccessRole" in SourceB account
 		// Ensure the current credentials set in our environment can assume the role
 		//
-		const awsAssumeRoleSourceB = `arn:aws:iam::${awsAccountIdSourceB}:role/OrganizationAccountAccessRole`;
+		const awsAssumeRoleSourceB = `arn:aws:iam::${awsAccountIdSourceB}:role/${assumeRoleSourceB}`;
 		const sourceBProvUsEast1 = new aws.Provider('sourceBProvUsEast1', {
 			region: 'us-east-1',
 			assumeRole: {
