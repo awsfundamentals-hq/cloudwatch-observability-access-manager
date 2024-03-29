@@ -8,11 +8,13 @@
 // This example is a little manual and requires you to update the Source account IDs below
 
 // Change the values below to match your Source account IDs
-const awsAccountIdSourceA = '__UPDATE_ME_SOURCE_ACCOUT_A_ID__';
-const assumeRoleSourceA = 'OrganizationAccountAccessRole';
+const awsAccountIdSourceA = '__UPDATE_ME__AWS_ACCOUNT_ID_SOURCE_A__';
+const sourceAccountARoleName = 'OrganizationAccountAccessRole';
+const sourceAccountARoleArn = `arn:aws:iam::${awsAccountIdSourceA}:role/${sourceAccountARoleName}`;
 
-const awsAccountIdSourceB = '__UPDATE_ME_SOURCE_ACCOUT_B_ID__';
-const assumeRoleSourceB = 'OrganizationAccountAccessRole';
+const awsAccountIdSourceB = '__UPDATE_ME__AWS_ACCOUNT_ID_SOURCE_B__';
+const sourceAccountBRoleName = 'OrganizationAccountAccessRole';
+const sourceAccountBRoleArn = `arn:aws:iam::${awsAccountIdSourceB}:role/${sourceAccountBRoleName}`;
 
 export default $config({
     app(input) {
@@ -108,17 +110,16 @@ export default $config({
         // Assume role "OrganizationAccountAccessRole" in SourceA account
         // Ensure the current credentials set in our environment can assume the role
         //
-        const awsAssumeRoleSourceA = `arn:aws:iam::${awsAccountIdSourceA}:role/${assumeRoleSourceA}`;
         const sourceAProvUsEast1 = new aws.Provider('sourceAProvUsEast1', {
             region: 'us-east-1',
             assumeRole: {
-                roleArn: awsAssumeRoleSourceA,
+                roleArn: sourceAccountARoleArn,
             },
         });
-        const sourceAApSouthEast2 = new aws.Provider('sourceAApSouthEast2', {
+        const sourceAProvApSouthEast2 = new aws.Provider('sourceAProvApSouthEast2', {
             region: 'ap-southeast-2',
             assumeRole: {
-                roleArn: awsAssumeRoleSourceA,
+                roleArn: sourceAccountARoleArn,
             },
         });
 
@@ -146,7 +147,7 @@ export default $config({
                 resourceTypes: createLinkResourceTypes(),
             },
             {
-                provider: sourceAApSouthEast2,
+                provider: sourceAProvApSouthEast2,
             },
         );
 
@@ -155,17 +156,16 @@ export default $config({
         // Assume role "OrganizationAccountAccessRole" in SourceB account
         // Ensure the current credentials set in our environment can assume the role
         //
-        const awsAssumeRoleSourceB = `arn:aws:iam::${awsAccountIdSourceB}:role/${assumeRoleSourceB}`;
         const sourceBProvUsEast1 = new aws.Provider('sourceBProvUsEast1', {
             region: 'us-east-1',
             assumeRole: {
-                roleArn: awsAssumeRoleSourceB,
+                roleArn: sourceAccountBRoleArn,
             },
         });
-        const sourceBApSouthEast2 = new aws.Provider('sourceBApSouthEast2', {
+        const sourceBProvApSouthEast2 = new aws.Provider('sourceBProvApSouthEast2', {
             region: 'ap-southeast-2',
             assumeRole: {
-                roleArn: awsAssumeRoleSourceB,
+                roleArn: sourceAccountBRoleArn,
             },
         });
 
@@ -193,7 +193,7 @@ export default $config({
                 resourceTypes: createLinkResourceTypes(),
             },
             {
-                provider: sourceBApSouthEast2,
+                provider: sourceBProvApSouthEast2,
             },
         );
     },
