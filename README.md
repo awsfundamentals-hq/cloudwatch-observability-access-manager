@@ -4,13 +4,13 @@ CloudWatch OAM empowers you to centralize and connect a region in multiple accou
 
 For example:
 
-- Source account A us-east-1 => Monitoring account us-east-1
-- Source account B us-east-1 => Monitoring account us-east-1
+-   Source account A us-east-1 => Monitoring account us-east-1
+-   Source account B us-east-1 => Monitoring account us-east-1
 
 Using the CloudWatch dashboard in Monitoring account us-east-1, you can see logs, metrics, trances and insights from Source accounts A and B.
 
-- Source account A ap-southeast-2 => Monitoring account ap-southeast-2
-- Source account B ap-southeast-2 => Monitoring account ap-southeast-2
+-   Source account A ap-southeast-2 => Monitoring account ap-southeast-2
+-   Source account B ap-southeast-2 => Monitoring account ap-southeast-2
 
 Using the CloudWatch dashboard in Monitoring account ap-southeast-2, you can see logs, metrics, trances and insights from Source accounts A and B.
 
@@ -18,9 +18,9 @@ Using the CloudWatch dashboard in Monitoring account ap-southeast-2, you can see
 
 You work with two components when configuring CloudWatch OAM:
 
-- **Sink**: A Sink represents a destination point where AWS accounts running workloads (named Source accounts) will send their logs, metrics, trace and insights to. You create Sinks in the Monitoring account. You can create a single Sink per region in the Monitoring account. A Monitoring account can be connected to as many as 100,000 Source accounts.
+-   **Sink**: A Sink represents a destination point where AWS accounts running workloads (named Source accounts) will send their logs, metrics, trace and insights to. You create Sinks in the Monitoring account. You can create a single Sink per region in the Monitoring account. A Monitoring account can be connected to as many as 100,000 Source accounts.
 
-- **Link**: A Link is a resource that represents the connection between the "Source account" and the Monitoring account. You create a Link in the AWS accounts running workloads where logs, metrics trace and insights are created. You can multiple Links per region in the Source account. A Source account can be paired with up to five monitoring accounts concurrently.
+-   **Link**: A Link is a resource that represents the connection between the "Source account" and the Monitoring account. You create a Link in the AWS accounts running workloads where logs, metrics trace and insights are created. You can multiple Links per region in the Source account. A Source account can be paired with up to five monitoring accounts concurrently.
 
 ## The example in this repository
 
