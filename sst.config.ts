@@ -49,8 +49,8 @@ export default $config({
         };
     },
     async run() {
+        // Deploy concurrently in multiple regions
         createCloudWatchOAMResourcesForRegion('us-east-1');
-
         createCloudWatchOAMResourcesForRegion('ap-southeast-2');
         //
         // For more information on Amazon CloudWatch Observability Access Manager:
@@ -80,13 +80,14 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
         },
         {
             provider: monitoringProv,
+            dependsOn: [monitoringProv],
         },
     );
     //
     // Create the Sink Policy to allow Source accounts to attach to the Sink
     // Sink Policy is similar to Resource Policy
     //
-    new aws.oam.SinkPolicy(
+    const monitoringSinkPolicy = new aws.oam.SinkPolicy(
         `MonitoringSinkPolicy${suffixAwsRegion}`,
         {
             sinkIdentifier: monitoringSink.arn,
@@ -94,6 +95,7 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
         },
         {
             provider: monitoringProv,
+            dependsOn: [monitoringSink],
         },
     );
 
@@ -102,12 +104,18 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
     // Assume role "OrganizationAccountAccessRole" in SourceA account
     // !!! Reminder: The current credentials set in our environment must be able to assume the role
     //
-    const source_a_Prov = new aws.Provider(`source_a_Prov${suffixAwsRegion}`, {
-        region: awsRegion,
-        assumeRole: {
-            roleArn: source_a_roleArn,
+    const source_a_Prov = new aws.Provider(
+        `source_a_Prov${suffixAwsRegion}`,
+        {
+            region: awsRegion,
+            assumeRole: {
+                roleArn: source_a_roleArn,
+            },
         },
-    });
+        {
+            dependsOn: [monitoringSinkPolicy],
+        },
+    );
     //
     // Create the Link in the target region in the SourceA account
     // and attach it to the Sink in the Monitoring account in the same region
@@ -121,6 +129,7 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
         },
         {
             provider: source_a_Prov,
+            dependsOn: [source_a_Prov],
         },
     );
 
@@ -129,12 +138,18 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
     // Assume role "OrganizationAccountAccessRole" in SourceB account
     // !!! Reminder: The current credentials set in our environment must be able to assume the role
     //
-    const source_b_Prov = new aws.Provider(`source_b_Prov${suffixAwsRegion}`, {
-        region: awsRegion,
-        assumeRole: {
-            roleArn: source_b_roleArn,
+    const source_b_Prov = new aws.Provider(
+        `source_b_Prov${suffixAwsRegion}`,
+        {
+            region: awsRegion,
+            assumeRole: {
+                roleArn: source_b_roleArn,
+            },
         },
-    });
+        {
+            dependsOn: [monitoringSinkPolicy],
+        },
+    );
     //
     // Create the Link in the target region in the SourceA account
     // and attach it to the Sink in the Monitoring account in the same region
@@ -148,6 +163,7 @@ function createCloudWatchOAMResourcesForRegion(awsRegion: aws.types.enums.Region
         },
         {
             provider: source_b_Prov,
+            dependsOn: [source_b_Prov],
         },
     );
 }
