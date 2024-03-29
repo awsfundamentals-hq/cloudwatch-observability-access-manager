@@ -1,4 +1,4 @@
-# Create CloudWatch Observability Access Manager (OAM) with SST Ion
+# How to configure CloudWatch Observability Access Manager (OAM)
 
 CloudWatch OAM empowers you to centralize and connect a region in multiple accounts (named Source accounts) into the same region in a destination account (named Monitoring account).
 
@@ -34,8 +34,6 @@ This repository shows how to configure [CloudWatch Observability Access Manager 
 
 We'll use the example described in the introduction above for our technical implementation. We are going to connect two regions from two Source accounts into the Monitoring account.
 
-Check out the [sst.config.ts](sst.config.ts) for more details.
-
 ![Diagram showing CloudWatch OAM constructs, Sinks and Links, distributed between two Source accounts and the Monitoring account.](.docs/oam.png)
 
 ## Final results
@@ -53,3 +51,22 @@ In the Monitoring account CloudWatch Logs dashboard in ap-southeast-2, I can see
 In the Monitoring account CloudWatch Logs dashboard in us-east-1, I can use Log Insights to query log groups from both Source accounts and inspect my log events:
 
 ![Screenshot of CloudWatch Logs dashboard in us-east-1 in Monitoring account using Log Insights to query log groups from both Source accounts](.docs/monitoring-log-insights.png)
+
+## How to find OAM Sink and Link in CloudWatch dashboard?
+
+You can find OAM Sink and Link configuration by clicking on "Settings" in the sidebar on the CloudWatch regional dashboard:
+
+- Link to us-east-1 regional dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1
+- Link to ap-southeast-2 regional dashboard: https://console.aws.amazon.com/cloudwatch/home?region=us-east-1
+
+In the Monitoring account, you will see the "Monitoring account enabled" enable status and buttons to inspect the configuration of the Sink, connected Links and manual steps to connect Links (which we didn't used! We are using Terraform for the configuration).
+
+![Screenshot showing CloudWatch regional dashboard for ap-southeast-2 in the Monitoring account](.docs/cloudwatch-dashboard-monitoring-account.png)
+
+![Screenshot showing CloudWatch regional dashboard for ap-southeast-2 in the Monitoring account in the manage OAM Sink tab](.docs/cloudwatch-dashboard-monitoring-account-manage.png)
+
+However, in the Source account, you will see the "Linked" enable status and buttons to view the linked monitoring accounts and to connect manually to one (which we didn't used! We are using Terraform for the configuration).
+
+![Screenshot showing CloudWatch regional dashboard for ap-southeast-2 in the Source account](.docs/cloudwatch-dashboard-source-account.png)
+
+![Screenshot showing CloudWatch regional dashboard for ap-southeast-2 in the Source account in the manage OAM Link tab](.docs/cloudwatch-dashboard-source-account-manage.png)

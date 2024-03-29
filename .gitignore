@@ -1,3 +1,5 @@
+*.lock.hcl
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,node,terraform
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,node,terraform
 
